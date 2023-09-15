@@ -34,8 +34,8 @@ pipeline {
         }
         stage('Build Docker image'){
             steps {
-                sh "docker build -t ${env.JOBNAME}:${env.BUILD_NUMBER}"
-                sh "docker build -t ${env.JOBNAME}:latest"
+                sh "docker build -t ${env.JOBNAME}:${env.BUILD_NUMBER} ."
+                sh "docker build -t ${env.JOBNAME}:latest ."
             }
         }
         stage("Release Docker images") {
