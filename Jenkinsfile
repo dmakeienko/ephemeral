@@ -1,5 +1,8 @@
 pipeline {
-    agent any 
+    agent {
+        label 'ubuntu'
+        label 'docker'
+    } 
     stages {
         stage('Check prerequisites') {
             steps {
