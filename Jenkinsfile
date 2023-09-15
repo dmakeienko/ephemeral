@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Deploy Helm to Minikube') {
             steps {
-                sh "helm upgrade --install -set image.tag=${env.BUILD_NUMBER} helm/ephemeral"
+                sh "helm upgrade --install --set image.tag=${env.BUILD_NUMBER} helm/ephemeral"
             }
         }
     }
