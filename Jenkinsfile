@@ -5,6 +5,7 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID     = credentials('terraform-aws-secret-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('terraform-aws-secret-access-key')
+        DOCKER_REGISTRY_NAME  = "merderik/ephemeral"
     }
     stages {
         stage('Check prerequisites') {
@@ -34,16 +35,15 @@ pipeline {
         }
         stage('Build Docker image'){
             steps {
-                sh "docker build -t ${env.JOBNAME}:${env.BUILD_NUMBER} ."
-                sh "docker build -t ${env.JOBNAME}:latest ."
+                sh "docker build -t ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER} ."
+                sh "docker build -t ${DOCKER_REGISTRY_NAME}:latest ."
             }
         }
         stage("Release Docker images") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-registry', passwordVariable: 'docker-registry-password', usernameVariable: 'docker-registry-user')]) {
-                    sh "docker login --username ${docker-registry-user} --password ${docker-registry-password}"
-                    sh "docker push ${env.JOBNAME}:${env.BUILD_NUMBER}"
-                    sh "docker push ${env.JOBNAME}:latest"
+                docker.withRegistry( '', docker-registry ){
+                    sh "docker push ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
+                    sh "docker push ${DOCKER_REGISTRY_NAME}:latest"
                 }
             }
         }
