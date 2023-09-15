@@ -38,6 +38,14 @@ pipeline {
             }
 
         }
+        stage("Create/Update Infra") {
+            steps {
+                 sh """cd infra/${env.JOB_NAME}  \\
+                        && tfenv use \\
+                        && terraform init \\
+                        && terraform apply -auto-approve"""                
+            }
+        }
         stage('Build Docker image'){
             steps {
                 sh "docker build -t ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER} ."
