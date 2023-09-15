@@ -30,6 +30,11 @@ pipeline {
                         sh "pylint app/main.py"
                     }
                 }
+                stage('Helm lint') {
+                    steps {
+                        sh "helm lint helm/ephemeral"
+                    }
+                }
             }
 
         }
@@ -44,6 +49,15 @@ pipeline {
                 sh "docker push ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
                 sh "docker push ${DOCKER_REGISTRY_NAME}:latest"
             }
+        }
+        stage('Deploy Helm to Minikube') {
+            sh "helm upgrade --install -set image.tag=${env.BUILD_NUMBER} helm/ephemeral"
+        }
+    }
+    post {
+        always {
+            sh "docker rmi ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
+            sh "docker rmi ${DOCKER_REGISTRY_NAME}:latest"
         }
     }
 }
