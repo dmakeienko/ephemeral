@@ -5,7 +5,9 @@ pipeline {
     stages {
         stage('Check prerequisites') {
             steps {
-                sh "python --version"
+                sh "python3 --version"
+                sh "tfenv version-name"
+                sh "docker -v"
             }
         }
     }
