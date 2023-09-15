@@ -18,7 +18,7 @@ pipeline {
             parallel {
                 stage('Terraform validate and format') {
                     steps {
-                    sh '''cd infra/$JOB_NAME  \\
+                    sh '''cd infra/${env.JOB_NAME}  \\
                         && tfenv use \\
                         && terraform init \\
                         && terraform validate'''
@@ -34,16 +34,16 @@ pipeline {
         }
         stage('Build Docker image'){
             steps {
-                sh "docker build -t ${JOBNAME}:${BUILD_NUMBER}"
-                sh "docker build -t ${JOBNAME}:latest"
+                sh "docker build -t ${env.JOBNAME}:${env.BUILD_NUMBER}"
+                sh "docker build -t ${env.JOBNAME}:latest"
             }
         }
         stage("Release Docker images") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-registry', passwordVariable: 'docker-registry-password', usernameVariable: 'docker-registry-user')]) {
                     sh "docker login --username ${docker-registry-user} --password ${docker-registry-password}"
-                    sh "docker push ${JOBNAME}:${BUILD_NUMBER}"
-                    sh "docker push ${JOBNAME}:latest"
+                    sh "docker push ${env.JOBNAME}:${env.BUILD_NUMBER}"
+                    sh "docker push ${env.JOBNAME}:latest"
                 }
             }
         }
