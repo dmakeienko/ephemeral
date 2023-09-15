@@ -21,7 +21,6 @@ pipeline {
                     sh '''cd infra/$JOB_NAME  \\
                         && tfenv use \\
                         && terraform init \\
-                        && terraform fmt \\
                         && terraform validate'''
                     }
                 }
@@ -32,6 +31,20 @@ pipeline {
                 }
             }
 
+        }
+        stage('Build Docker image'){
+            steps {
+                sh "docker build -t ${JOBNAME}:${BUILD_NUMBER}"
+                sh "docker build -t ${JOBNAME}:latest"
+            }
+        }
+        stage("Release Docker images") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-registry', passwordVariable: 'docker-registry-password', usernameVariable: 'docker-registry-user')]) {
+                    sh "docker login --username ${docker-registry-user} --password ${docker-registry-password}"
+                    sh "docker push ${JOBNAME}:${BUILD_NUMBER}"
+                    sh "docker push ${JOBNAME}:latest"
+            }
         }
     }
 }
