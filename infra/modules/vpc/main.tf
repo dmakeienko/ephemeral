@@ -1,7 +1,7 @@
 resource "aws_vpc" "main" {
-  cidr_block       = var.cidr_block
-  instance_tenancy = var.instance_tenancy
- enable_dns_support   = var.enable_dns_support
+  cidr_block           = var.cidr_block
+  instance_tenancy     = var.instance_tenancy
+  enable_dns_support   = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
   tags = merge({
     Name = "${var.resource_name_prefix}-vpc1"
@@ -10,17 +10,17 @@ resource "aws_vpc" "main" {
 
 resource "aws_default_route_table" "main" {
   default_route_table_id = aws_vpc.main.default_route_table_id
-  tags     = merge({
+  tags = merge({
     Name = "${var.resource_name_prefix}-vpc1-default-rt"
   }, var.tags)
 }
 
 resource "aws_vpc_dhcp_options" "main" {
 
-  domain_name = var.domain_name
+  domain_name         = var.domain_name
   domain_name_servers = var.domain_name_servers
 
-  tags     = merge({
+  tags = merge({
     Name = "${var.resource_name_prefix}-vpc1-dhcp-options"
   }, var.tags)
 }

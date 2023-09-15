@@ -13,11 +13,11 @@ resource "aws_subnet" "main" {
 }
 
 resource "aws_route_table" "main" {
- for_each = var.subnets
+  for_each = var.subnets
 
-  vpc_id           = var.vpc_id
+  vpc_id = var.vpc_id
 
- tags = merge({
+  tags = merge({
     Name = "${var.resource_name_prefix}-sn-${each.key}-rt"
   }, var.tags)
 }

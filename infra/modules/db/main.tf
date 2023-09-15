@@ -1,6 +1,6 @@
 resource "aws_db_subnet_group" "this" {
-  name        = "${var.resource_name_prefix}-db-sn-gr1"
-  subnet_ids  = var.subnet_ids
+  name       = "${var.resource_name_prefix}-db-sn-gr1"
+  subnet_ids = var.subnet_ids
 
   tags = merge({
     Name = "${var.resource_name_prefix}-db-sn-gr1"
@@ -8,22 +8,22 @@ resource "aws_db_subnet_group" "this" {
 }
 
 resource "aws_db_instance" "main" {
-  allocated_storage   = var.allocated_storage
-  db_name             = var.db_name
-  engine              = var.db_engine
-  engine_version      = var.engine_version
-  instance_class      = var.db_instance_tier
-  username            = var.db_username
-  password            = var.db_password
-  skip_final_snapshot = var.skip_final_snapshot
+  allocated_storage    = var.allocated_storage
+  db_name              = var.db_name
+  engine               = var.db_engine
+  engine_version       = var.engine_version
+  instance_class       = var.db_instance_tier
+  username             = var.db_username
+  password             = var.db_password
+  skip_final_snapshot  = var.skip_final_snapshot
   db_subnet_group_name = "${var.resource_name_prefix}-db-sn-gr1"
-  port                = var.db_port
+  port                 = var.db_port
 
   tags = merge({
     Name = "${var.resource_name_prefix}-vpc1-db1"
   }, var.tags)
 
-  depends_on = [ aws_db_subnet_group.this ]
+  depends_on = [aws_db_subnet_group.this]
 }
 
 
@@ -33,9 +33,9 @@ resource "aws_security_group" "allow_tls" {
   vpc_id      = var.vpc_id
 
   ingress {
-    from_port = var.db_port
-    to_port   = var.db_port
-    protocol  = "tcp"
+    from_port   = var.db_port
+    to_port     = var.db_port
+    protocol    = "tcp"
     cidr_blocks = var.allowed_network_cidr
   }
   egress {

@@ -56,22 +56,22 @@ variable "resource_name_prefix" {
 
 
 variable "subnet_ids" {
-  type = list(string)
+  type        = list(string)
   description = "(optional) describe your variable"
 }
 
 variable "db_port" {
-  type = string
+  type        = string
   description = "(optional) describe your variable"
-  default = "5432"
+  default     = "5432"
 }
 
 variable "allowed_network_cidr" {
-  type = list(string)
+  type        = list(string)
   description = "(optional) describe your variable"
 }
 
 variable "vpc_id" {
-  type = string
+  type        = string
   description = "(optional) describe your variable"
 }
