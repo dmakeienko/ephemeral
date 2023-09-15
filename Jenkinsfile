@@ -44,6 +44,7 @@ pipeline {
                     sh "docker login --username ${docker-registry-user} --password ${docker-registry-password}"
                     sh "docker push ${JOBNAME}:${BUILD_NUMBER}"
                     sh "docker push ${JOBNAME}:latest"
+                }
             }
         }
     }
