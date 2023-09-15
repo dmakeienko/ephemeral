@@ -49,14 +49,12 @@ pipeline {
         }
         stage('Build Docker image'){
             steps {
-                sh "docker build -t ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER} ."
-                sh "docker build -t ${DOCKER_REGISTRY_NAME}:latest ."
+                sh "docker build -t ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER} -t ${DOCKER_REGISTRY_NAME}:latest ."
             }
         }
         stage("Release Docker images") {
             steps {
-                sh "docker push ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
-                sh "docker push ${DOCKER_REGISTRY_NAME}:latest"
+                sh "docker image push --all-tags ${DOCKER_REGISTRY_NAME}"
             }
         }
         stage('Deploy Helm to Minikube') {
@@ -67,8 +65,7 @@ pipeline {
     }
     post {
         always {
-            sh "docker rmi ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
-            sh "docker rmi ${DOCKER_REGISTRY_NAME}:latest"
+            sh "docker rmi --force ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER} ${DOCKER_REGISTRY_NAME}:latest"
         }
     }
 }

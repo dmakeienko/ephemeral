@@ -34,3 +34,7 @@ variable "allowed_network_cidr" {
     "194.156.249.177/32" #Minikube  IP
   ]
 }
+
+variable "vpc_cidr_block" {
+  default = "10.0.0.0/16"
+}
