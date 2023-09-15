@@ -44,11 +44,6 @@ variable "db_password" {
   description = "(optional) describe your variable"
 }
 
-variable "tags" {
-  type        = map(string)
-  description = "Map of resource tags"
-}
-
 variable "resource_name_prefix" {
   type        = string
   description = "(optional) describe your variable"

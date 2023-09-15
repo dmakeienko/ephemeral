@@ -2,9 +2,9 @@ resource "aws_db_subnet_group" "this" {
   name       = "${var.resource_name_prefix}-db-sn-gr1"
   subnet_ids = var.subnet_ids
 
-  tags = merge({
+  tags = {
     Name = "${var.resource_name_prefix}-db-sn-gr1"
-  }, var.tags)
+  }
 }
 
 resource "aws_db_instance" "main" {
@@ -19,9 +19,9 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name = "${var.resource_name_prefix}-db-sn-gr1"
   port                 = var.db_port
 
-  tags = merge({
+  tags = {
     Name = "${var.resource_name_prefix}-vpc1-db1"
-  }, var.tags)
+  }
 
   depends_on = [aws_db_subnet_group.this]
 }
@@ -46,8 +46,8 @@ resource "aws_security_group" "allow_tls" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = merge({
+  tags = {
     Name = "${var.resource_name_prefix}-vpc1-db1-sg1"
-  }, var.tags)
+  }
 
 }

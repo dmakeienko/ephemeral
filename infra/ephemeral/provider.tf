@@ -8,3 +8,13 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = var.aws_region
+  default_tags {
+    tags = {
+      project_name = var.project_name
+      env_id       = var.env_id
+      "Owner"      = "denys.makeienko@gmail.com"
+    }
+  }
+}

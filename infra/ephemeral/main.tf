@@ -3,7 +3,6 @@ module "vpc" {
   cidr_block = var.vpc_cidr_block
 
   resource_name_prefix = local.resource_name_prefix
-  tags                 = local.tags
 }
 
 ##Subnets for RDS instance
@@ -25,7 +24,6 @@ module "rds_subnets" {
   }
 
   resource_name_prefix = local.resource_name_prefix
-  tags                 = local.tags
 }
 
 module "postgres" {
@@ -36,7 +34,5 @@ module "postgres" {
   subnet_ids           = values(module.rds_subnets.subnet_id)
   resource_name_prefix = local.resource_name_prefix
   allowed_network_cidr = var.allowed_network_cidr
-  vpc_id = module.vpc.vpc_id
-  
-  tags = local.tags
+  vpc_id               = module.vpc.vpc_id
 }

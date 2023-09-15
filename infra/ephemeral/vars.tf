@@ -16,17 +16,12 @@ variable "env_id" {
 
 locals {
   resource_name_prefix = "${var.project_name}-${var.env_id}"
-  tags = {
-    project_name = var.project_name
-    env_id       = var.env_id
-    "Owner"      = "denys.makeienko@gmail.com"
-  }
 }
 
 variable "db_password" {
-  type = string
+  type        = string
   description = "(optional) describe your variable"
-  sensitive = true
+  sensitive   = true
 }
 
 variable "allowed_network_cidr" {

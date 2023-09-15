@@ -42,9 +42,3 @@ variable "domain_name_servers" {
   description = "List of name servers to configure in /etc/resolv.conf"
   default     = ["AmazonProvidedDNS"]
 }
-
-
-variable "tags" {
-  type        = map(string)
-  description = "Map of resource tags"
-}

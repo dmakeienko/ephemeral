@@ -7,9 +7,9 @@ resource "aws_subnet" "main" {
 
   map_public_ip_on_launch = each.value.map_public_ip_on_launch
 
-  tags = merge({
+  tags = {
     Name = "${var.resource_name_prefix}-sn-${each.key}"
-  }, var.tags)
+  }
 }
 
 resource "aws_route_table" "main" {
@@ -17,9 +17,9 @@ resource "aws_route_table" "main" {
 
   vpc_id = var.vpc_id
 
-  tags = merge({
+  tags = {
     Name = "${var.resource_name_prefix}-sn-${each.key}-rt"
-  }, var.tags)
+  }
 }
 
 resource "aws_route_table_association" "default" {
