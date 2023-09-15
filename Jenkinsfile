@@ -6,6 +6,7 @@ pipeline {
         AWS_ACCESS_KEY_ID     = credentials('terraform-aws-secret-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('terraform-aws-secret-access-key')
         DOCKER_REGISTRY_NAME  = "merderik/ephemeral"
+        TF_VAR_db_password    = credentials('TF_VAR_db_password')
     }
     stages {
         stage('Check prerequisites') {
