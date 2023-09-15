@@ -11,10 +11,11 @@ USER python
 
 FROM python_base as app
 
-ADD --chown=$USERNAME:$USERNAME ./app /app/
 WORKDIR /app
 
+COPY /app/requirements.txt .
 RUN pip install -r requirements.txt
+COPY --chown=$USERNAME:$USERNAME ./app /app/
 
 EXPOSE 5000
 CMD ["python", "/app/main.py"]
