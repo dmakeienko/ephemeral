@@ -21,7 +21,7 @@ pipeline {
                     sh '''cd infra/$JOB_NAME  \\
                         && tfenv use \\
                         && terraform init \\
-                        && terraform format \\
+                        && terraform fmt \\
                         && terraform validate'''
                     }
                 }
