@@ -41,10 +41,8 @@ pipeline {
         }
         stage("Release Docker images") {
             steps {
-                docker.withRegistry( '', docker-registry ){
-                    sh "docker push ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
-                    sh "docker push ${DOCKER_REGISTRY_NAME}:latest"
-                }
+                sh "docker push ${DOCKER_REGISTRY_NAME}:${env.BUILD_NUMBER}"
+                sh "docker push ${DOCKER_REGISTRY_NAME}:latest"
             }
         }
     }
