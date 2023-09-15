@@ -18,12 +18,11 @@ pipeline {
             parallel {
                 stage('Terraform validate and format') {
                     steps {
-                        sh "echo $PWD"
-                        sh """cd infra/$JOB_NAME"  \
-                        && tfenv use \
-                        && terraform init \
-                        && terraform format \
-                        && terraform validate"""
+                    sh '''cd infra/$JOB_NAME  \\
+                        && tfenv use \\
+                        && terraform init \\
+                        && terraform format \\
+                        && terraform validate'''
                     }
                 }
                 stage('Python lint') {
